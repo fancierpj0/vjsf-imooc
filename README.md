@@ -25,3 +25,12 @@ npm i ajv-i18n
 npm i ajv-erros
 ```
 + 自定义错误信息
+
+##
+```shell script
+npm i -D monaco-editor
+
+npm i vue-jss
+npm i jss jss-preset-default
+```
++ vue-jss这是讲这课的2b老师自己封装的
