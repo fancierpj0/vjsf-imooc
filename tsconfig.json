@@ -3,7 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
-    "jsx": "preserve",
+    "jsx": "preserve", //让ts不要去编译 留给babel去编译,因为typescript采纳的是react的jsx,这样的话vue的jsx编译出来的结果和ts(react jsx)编译出来的结果是有差异的
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
