@@ -34,3 +34,14 @@ npm i vue-jss
 npm i jss jss-preset-default
 ```
 + vue-jss这是讲这课的2b老师自己封装的
+
+##
+```shell script
+vue upgrade
+```
+
+##
+解决 monaco-editor 控制台报错
+```shell script
+npm i monaco-editor-webpack-plugin -D
+```
