@@ -26,7 +26,29 @@ export default {
             type: 'number'
           }
         ]
+      },
+
+      // singleTypeArray: {
+      //   type: 'array',
+      //   items: {
+      //     type: 'string'
+      //   }
+      // }
+      singleTypeArray: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string'
+            },
+            age: {
+              type: 'number'
+            }
+          }
+        }
       }
+
     }
   },
   uiSchema: {
@@ -48,6 +70,11 @@ export default {
     lastName: "Norris",
     age: 75,
     bio: "Roundhouse kicking asses since 1940",
-    password: "noneed"
+    password: "noneed",
+
+
+    // singleTypeArray: ['ahhh'],
+    singleTypeArray: [{name: 'ahhh', age: 12}]
+
   }
 }
