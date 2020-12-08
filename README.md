@@ -59,3 +59,10 @@ npm i @types/lodash.union @types/json-schema-merge-allof -D
 ```shell script
 npm i circular-dependency-plugin -D
 ```
+##
+```shell script
+npm i cross-env -D
+```
+```shell script
+npm i rimraf -D
+```
