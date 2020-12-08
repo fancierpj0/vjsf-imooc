@@ -1,4 +1,5 @@
 import {defineComponent, PropType, DefineComponent} from "vue"
+import {SelectionWidget} from "./index";
 
 export enum SchemaTypes {
   "NUMBER" = "number",
@@ -74,7 +75,7 @@ export const TypeHelperComponent = defineComponent({
 export type CommonFieldType = typeof TypeHelperComponent
 
 
-const CommonWidgetPropsDefine = {
+export const CommonWidgetPropsDefine = {
   value: {},
   onChange: {
     type: Function as PropType<(v: any) => void>,
@@ -82,9 +83,9 @@ const CommonWidgetPropsDefine = {
   },
 } as const
 
-type CommonWidgetDefine = DefineComponent<typeof CommonWidgetPropsDefine,{},{}> //←todo
+export type CommonWidgetDefine = DefineComponent<typeof CommonWidgetPropsDefine,{},{}> //←todo
 
-const SelectionWidgetPropsDefine = {
+export const SelectionWidgetPropsDefine = {
   ...CommonWidgetPropsDefine,
   options: {
     type: Array as PropType<{
@@ -93,13 +94,24 @@ const SelectionWidgetPropsDefine = {
     }[]>,
     required: true
   }
-};
-type SelectionWidgetDefine = DefineComponent<typeof SelectionWidgetPropsDefine,{},{}>
+} as const;
+
+export type SelectionWidgetDefine = DefineComponent<typeof SelectionWidgetPropsDefine,{},{}>
+
+//todo
+export enum SelectionWidgetNames {
+  SelectionWidget = 'SelectionWidget'
+}
+
+export enum CommonWidgetNames {
+  TextWidget = 'TextWidget',
+  NumberWidget = 'NumberWidget'
+}
 
 export interface Theme {
   widgets: {
-    SelectionWidget: SelectionWidgetDefine,
-    TextWidget: CommonWidgetDefine,
-    NumberWidget: CommonWidgetDefine
+    [SelectionWidgetNames.SelectionWidget]: SelectionWidgetDefine,
+    [CommonWidgetNames.TextWidget]: CommonWidgetDefine,
+    [CommonWidgetNames.NumberWidget]: CommonWidgetDefine
   }
 }

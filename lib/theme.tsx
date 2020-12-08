@@ -1,5 +1,5 @@
 import {defineComponent, PropType, provide, computed, inject, Ref, ComputedRef} from 'vue'
-import {Theme} from "./types";
+import {Theme,SelectionWidgetNames,CommonWidgetNames} from "./types";
 
 const THEME_PROVIDER_KEY = Symbol()
 
@@ -20,14 +20,14 @@ const ThemeProvider = defineComponent({
   }
 })
 
-export function getWidget(name: string) {
+export function getWidget<T extends SelectionWidgetNames | CommonWidgetNames/**←todo*/>(name: T) {
   const context: ComputedRef<Theme> | undefined = inject<ComputedRef<Theme>>(THEME_PROVIDER_KEY);
   if (!context) {
     throw new Error('vjsf theme required');
   }
 
   const widgetRef = computed(()=>{
-    return (context.value.widgets as any)[name]
+    return context.value.widgets[name]
   })
   return widgetRef
 }
