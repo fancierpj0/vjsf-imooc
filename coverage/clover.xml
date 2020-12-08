@@ -383,7 +383,7 @@
     </package>
     <package name="lib.widgets">
       <metrics statements="13" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="7" coveredmethods="0"/>
-      <file name="Selection.tsx" path="F:\js_workplace\research\vue3-json-schema-form\lib\widgets\Selection.tsx">
+      <file name="SelectionWidget.tsx" path="F:\js_workplace\research\vue3-json-schema-form\lib\widgets\SelectionWidget.tsx">
         <metrics statements="13" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="3" count="2" type="stmt"/>
         <line num="20" count="0" type="stmt"/>

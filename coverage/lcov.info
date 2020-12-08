@@ -786,7 +786,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:F:\js_workplace\research\vue3-json-schema-form\lib\widgets\Selection.tsx
+SF:F:\js_workplace\research\vue3-json-schema-form\lib\widgets\SelectionWidget.tsx
 FN:19,(anonymous_0)
 FN:23,(anonymous_1)
 FN:28,(anonymous_2)
