@@ -18,8 +18,9 @@ const TextWidget: CommonWidgetDefine = defineComponent({
 
       /** 实现受控组件 法二*/
       console.log(e);
+      const value = e.target.value
       e.target.value = props.value
-      props.onChange(e.target.value)
+      props.onChange(value)
     };
 
     return ()=>  <input type="text" value={props.value as any} onInput={handleChange}/>
