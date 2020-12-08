@@ -30,11 +30,6 @@ export default defineComponent({
 
     provide(SchemaFormContextKey, context) //provide的数据并不会自动变为响应式的 除非你讲其用reactive() 进行包裹
 
-    let index = 1;
-    setInterval(() => {
-      context.SchemaItem = index++
-    }, 500)
-
     return () => {
       const {schema, value} = props
       return <SchemaItem schema={schema} rootSchema={schema} value={value} onChange={handleChange}/>
