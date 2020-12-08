@@ -1,27 +1,20 @@
 import {defineComponent, inject, watchEffect, DefineComponent, ExtractPropTypes} from 'vue'
 
-import {FiledPropsDefine} from "../types";
-import {SchemaFormContextKey} from "../context";
+import {CommonFieldType, FiledPropsDefine} from "../types";
+import {SchemaFormContextKey, useVJSFContext} from "../context";
 import {isObject} from "../utils";
 
 // import SchemaItem from "../SchemaItem";
 //
 // console.log(SchemaItem);
 
-const TypeHelperComponent = defineComponent({
-  props: FiledPropsDefine
-})
-type SchemaItemDefine = typeof TypeHelperComponent
+
 
 export default defineComponent({
   name: 'ObjectField',
   props: FiledPropsDefine,
   setup(props) {
-    const context: { SchemaItem: SchemaItemDefine } | undefined = inject(SchemaFormContextKey)
-
-    if (!context) {
-      throw Error(`SchemaForm should be used`)
-    }
+    const context = useVJSFContext()
 
     const handleObjectFieldChange = (key: string, v: any) => {
       const value: any = isObject(props.value) ? props.value : {}
