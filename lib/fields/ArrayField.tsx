@@ -2,8 +2,8 @@ import {defineComponent, PropType} from 'vue'
 import {createUseStyles} from "vue-jss/dist";
 
 import {FiledPropsDefine, Schema} from "../types";
-
 import {useVJSFContext} from "../context";
+import SelectionWidget from '../widgets/Selection';
 
 const useStyles = createUseStyles({
   container: {
@@ -75,10 +75,12 @@ const ArrayItemWrapper = defineComponent({
 })
 
 /**
+ * 单类型数组
  * {
  *   items: {type: string}
  * }
  *
+ * 固定长度数组
  * {
  *   items: [
  *     {type: string},
@@ -86,6 +88,7 @@ const ArrayItemWrapper = defineComponent({
  *   ]
  * }
  *
+ * 多选数组
  * {
  *   items: { type: string, enum: ['1','2'] }
  * }
@@ -148,6 +151,7 @@ export default defineComponent({
       const isMultiType = Array.isArray(schema.items)
       const isSelect = schema.items && (schema.items as any).enum
 
+      //固定长度数组
       if (isMultiType) {
         const items: Schema[] = schema.items as any
         const arr = Array.isArray(value) ? value : [];
@@ -161,6 +165,8 @@ export default defineComponent({
             onChange={(v: any) => handleArrayItemChange(v, index)}
           />
         ));
+
+      //单类型
       } else if (!isSelect) {
         const arr = Array.isArray(value) ? value : [];
         return arr.map((v: any, index: number) => {
@@ -176,9 +182,16 @@ export default defineComponent({
             </ArrayItemWrapper>
           )
         })
-      }
 
-      return <div></div>;
+      //enum
+      } else {
+        const enumOptions = (schema as any).items.enum
+        const options = enumOptions.map((e: any) => ({
+          key: e,
+          value: e
+        }));
+        return <SelectionWidget onChange={props.onChange} value={props.value} options={options}/>
+      }
     };
   }
 })
