@@ -3,7 +3,7 @@ import {createUseStyles} from "vue-jss/dist";
 
 import {FiledPropsDefine, Schema} from "../types";
 import {useVJSFContext} from "../context";
-import SelectionWidget from '../widgets/Selection';
+// import SelectionWidget from '../widgets/Selection';
 
 const useStyles = createUseStyles({
   container: {
@@ -150,6 +150,8 @@ export default defineComponent({
 
       const isMultiType = Array.isArray(schema.items)
       const isSelect = schema.items && (schema.items as any).enum
+
+      const SelectionWidget = context.theme.widgets.SelectionWidget
 
       //固定长度数组
       if (isMultiType) {
