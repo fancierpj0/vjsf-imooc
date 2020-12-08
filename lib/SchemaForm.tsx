@@ -1,7 +1,8 @@
-import {defineComponent, PropType} from 'vue'
+import {defineComponent, PropType, provide} from 'vue'
 
 import {Schema, SchemaTypes} from "./types";
 import SchemaItem from "./SchemaItem";
+import {SchemaFormContextKey} from './context'
 
 export default defineComponent({
   name: 'SchemaForm',
@@ -23,8 +24,19 @@ export default defineComponent({
       props.onChange(v)
     }
 
+    const context: any = {
+      SchemaItem
+    }
+
+    provide(SchemaFormContextKey, context) //provide的数据并不会自动变为响应式的 除非你讲其用reactive() 进行包裹
+
+    let index = 1;
+    setInterval(() => {
+      context.SchemaItem = index++
+    }, 500)
+
     return () => {
-      const {schema,value} = props
+      const {schema, value} = props
       return <SchemaItem schema={schema} rootSchema={schema} value={value} onChange={handleChange}/>
     }
   }
