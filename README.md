@@ -45,3 +45,17 @@ vue upgrade
 ```shell script
 npm i monaco-editor-webpack-plugin -D
 ```
+
+##
+```shell script
+npm i jsonpointer
+npm i lodash.union
+npm i json-schema-merge-allof
+
+npm i @types/lodash.union @types/json-schema-merge-allof -D
+```
+
+## 循环引用提醒
+```shell script
+npm i circular-dependency-plugin -D
+```
