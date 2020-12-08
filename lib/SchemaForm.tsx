@@ -17,11 +17,11 @@ export default defineComponent({
     onChange: {
       type: Function as PropType<(v: any) => void>,
       required: true
-    },
+    }/*,
     theme: {
       type: Object as PropType<Theme>,
       required: true
-    }
+    }*/
   },
   setup(props, {slots, emit, attrs}) {
     const handleChange = (v: any) => {
@@ -30,7 +30,7 @@ export default defineComponent({
 
     const context: any = {
       SchemaItem,
-      theme: props.theme
+      // theme: props.theme
     }
 
     provide(SchemaFormContextKey, context) //provide的数据并不会自动变为响应式的 除非你讲其用reactive() 进行包裹
