@@ -16,3 +16,5 @@ export {
   SelectionWidget,
   ThemeProvider
 }
+
+export * from './types';

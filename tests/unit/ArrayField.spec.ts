@@ -1,11 +1,12 @@
 import {shallowMount, mount} from '@vue/test-utils'
 import {defineComponent, h} from 'vue';
 
-import JsonSchemaForm, {NumberField, StringField,ArrayField,SelectionWidget} from '../../lib'
+import {NumberField, StringField,ArrayField,SelectionWidget} from '../../lib'
+import TestComponent from "./utils/TestComponent";
 
 describe('ArrayFiled', () => {
   it('should render multi type', () => {
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'array',
@@ -33,7 +34,7 @@ describe('ArrayFiled', () => {
   })
 
   it('should render single type', () => {
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'array',
@@ -56,7 +57,7 @@ describe('ArrayFiled', () => {
   })
 
   it('should render enum type', () => {
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'array',
