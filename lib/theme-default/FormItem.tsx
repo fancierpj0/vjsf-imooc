@@ -1,7 +1,7 @@
 import {defineComponent, nextTick} from "vue";
 import {createUseStyles} from "vue-jss";
 
-import {CommonWidgetPropsDefine} from '../types'
+import {CommonWidgetPropsDefine,CommonWidgetDefine} from '../types'
 
 const useStyles = createUseStyles({
   container: {
@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
   }
 })
 
-export default defineComponent({
+const FormItem =  defineComponent({
   name: 'FormItem',
   props: CommonWidgetPropsDefine,
   setup(props, {slots}){
@@ -42,3 +42,18 @@ export default defineComponent({
     };
   }
 })
+export default FormItem;
+
+export function withFormItem(Widget: any){
+  return defineComponent({
+    name: `Wrapped${Widget.name}`,
+    props: CommonWidgetPropsDefine,
+    setup(props, {attrs}){
+      return ()=> {
+        return <FormItem {...props}>
+          <Widget {...props} {...attrs}/>
+        </FormItem>
+      }
+    }
+  }) as any
+}

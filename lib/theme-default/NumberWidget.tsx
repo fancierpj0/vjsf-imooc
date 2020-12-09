@@ -1,7 +1,9 @@
-import {CommonWidgetDefine, CommonWidgetPropsDefine} from "../types";
 import {defineComponent, nextTick} from "vue";
 
-const NumberWidget: CommonWidgetDefine = defineComponent({
+import {CommonWidgetDefine, CommonWidgetPropsDefine} from "../types";
+import {withFormItem} from './FormItem'
+
+const NumberWidget: CommonWidgetDefine = withFormItem(defineComponent({
   name: 'NumberWidget',
   props: CommonWidgetPropsDefine,
   setup(props) {
@@ -13,6 +15,6 @@ const NumberWidget: CommonWidgetDefine = defineComponent({
 
     return ()=>  <input type="number" value={props.value as any} onInput={handleChange}/>
   }
-})
+}))
 
 export default NumberWidget
