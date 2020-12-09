@@ -18,6 +18,7 @@ npm i ajv
 ```
 ```shell script
 npm i ajv-i18n
+npm i @types/ajv-i18n -D
 ```
 + 转换错误提示语言
 
@@ -69,3 +70,9 @@ npm i rimraf -D
 
 ##
 setup里声明的ref什么的,在外面(其它组件里)获取不到,vue也没有提供this.$xx什么的来获取
+
+##
+```shell script
+npm i lodash.topath -D
+npm i @types/lodash.topath -D
+```

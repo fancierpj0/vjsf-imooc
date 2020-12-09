@@ -1,9 +1,10 @@
 import {defineComponent, PropType, provide, Ref, watch, shallowRef, watchEffect} from 'vue'
+import Ajv, { Options } from 'ajv';
 
 import {Schema, SchemaTypes, Theme} from "./types";
 import SchemaItem from "./SchemaItem";
 import {SchemaFormContextKey} from './context'
-import Ajv, { Options } from 'ajv';
+import {validatorFormData} from './validator'
 
 interface ContextRef {
   doValidate: () => {
@@ -41,6 +42,10 @@ export default defineComponent({
     ,ajvOptions: {
       type: Object as PropType<Options>
     }
+    ,locale: {
+      type: String,
+      default: 'zh'
+    }
   },
   setup(props, {slots, emit, attrs}) {
     const handleChange = (v: any) => {
@@ -67,12 +72,10 @@ export default defineComponent({
           doValidate(){
             console.log('---------------');
 
-            const valid = validatorRef.value.validate(props.schema, props.value) as boolean
+            // const valid = validatorRef.value.validate(props.schema, props.value) as boolean
+            const result = validatorFormData(validatorRef.value,props.value,props.schema,props.locale)
 
-            return {
-              valid: valid,
-              errors: validatorRef.value.errors || []
-            }
+            return result
           }
         }
       }
