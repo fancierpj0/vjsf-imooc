@@ -1,4 +1,4 @@
-import {defineComponent, PropType, provide, Ref, watch, shallowRef, watchEffect} from 'vue'
+import {defineComponent, PropType, provide, Ref, watch, shallowRef, watchEffect, ref} from 'vue'
 import Ajv, { Options } from 'ajv';
 
 import {Schema, SchemaTypes, Theme} from "./types";
@@ -7,15 +7,15 @@ import {SchemaFormContextKey} from './context'
 import {ErrorSchema, validateFormData} from './validator'
 
 interface ContextRef {
-  doValidate: () => {
+  doValidate: () => Promise<{
     errors: any[],
     valid: boolean
-  }
+  }>
 }
 
 const defaultAjvOptions: Options = {
   allErrors: true,
-  jsonPointers: true
+  //jsonPointers: true // 和validators.ts 里的 lodash.toPath冲突
 }
 
 export default defineComponent({
@@ -71,24 +71,47 @@ export default defineComponent({
       })
     })
 
+    const validateResolveRef = ref()
+    const validateIndex = ref(0)
+
+    //点击校验按钮过后,在异步校验的过程中,还没拿到最终的结果之前
+    //每次值改变都会重新进行校验
+    watch(()=>props.value,()=>{
+      if(validateResolveRef.value){
+        doValidate()
+      }
+    },{deep: true})
+
+    async function doValidate(){
+      console.log('start validate ------->');
+      const index = validateIndex.value += 1
+
+      // const valid = validatorRef.value.validate(props.schema, props.value) as boolean
+      const result = await validateFormData(
+        validatorRef.value,
+        props.value,
+        props.schema,
+        props.locale,
+        props.customValidate
+      )
+
+      if(index !== validateIndex.value) return
+      console.log('end validate ------->');
+
+      errorSchemaRef.value = result.errorSchema
+
+      validateResolveRef.value(result)
+      validateResolveRef.value = undefined
+    }
+
     watch(()=>props.contextRef,()=>{
       if (props.contextRef) {
         props.contextRef.value = {
           doValidate(){
-            console.log('---------------');
-
-            // const valid = validatorRef.value.validate(props.schema, props.value) as boolean
-            const result = validateFormData(
-              validatorRef.value,
-              props.value,
-              props.schema,
-              props.locale,
-              props.customValidate
-            )
-
-            errorSchemaRef.value = result.errorSchema
-
-            return result
+            return new Promise((resolve)=>{
+              validateResolveRef.value = resolve
+              doValidate()
+            })
           }
         }
       }

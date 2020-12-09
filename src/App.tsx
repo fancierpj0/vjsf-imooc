@@ -134,6 +134,13 @@ export default defineComponent({
 
     const contextRef = ref()
 
+    function validateForm(){
+      contextRef.value.doValidate()
+        .then((result:any)=>{
+          console.log(result);
+        })
+    }
+
     return () => {
       const classes = classesRef.value
       const selected = selectedRef.value
@@ -201,7 +208,7 @@ export default defineComponent({
                 contextRef={methodRef}
                 value={demo.data}
               /> */}
-                <button onClick={()=>console.log(contextRef.value.doValidate())}>校 验</button>
+                <button onClick={validateForm}>校 验</button>
               </div>
             </div>
           </div>
