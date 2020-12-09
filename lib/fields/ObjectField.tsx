@@ -34,6 +34,8 @@ export default defineComponent({
       const properties = schema.properties || {}
       const currentValue: any = isObject(value) ? value : {};
 
+      console.log('ObjectField errorSchema:',errorSchema);
+      console.log(Object.keys(properties));
       return Object.keys(properties).map((k: string, index: number) => (
         <SchemaItem
           schema={properties[k]}

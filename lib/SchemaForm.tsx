@@ -46,6 +46,9 @@ export default defineComponent({
       type: String,
       default: 'zh'
     }
+    ,customValidate: {
+      type: Function as PropType<(data: any, errors: any) => void>
+    }
   },
   setup(props, {slots, emit, attrs}) {
     const handleChange = (v: any) => {
@@ -75,7 +78,13 @@ export default defineComponent({
             console.log('---------------');
 
             // const valid = validatorRef.value.validate(props.schema, props.value) as boolean
-            const result = validateFormData(validatorRef.value,props.value,props.schema,props.locale)
+            const result = validateFormData(
+              validatorRef.value,
+              props.value,
+              props.schema,
+              props.locale,
+              props.customValidate
+            )
 
             errorSchemaRef.value = result.errorSchema
 

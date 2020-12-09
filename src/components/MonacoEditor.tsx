@@ -58,7 +58,7 @@ export default defineComponent({
             })
 
             _subscription = editor.onDidChangeModelContent((event) => {
-                console.log('--------->', __prevent_trigger_change_event)
+                // console.log('--------->', __prevent_trigger_change_event)
                 if (!__prevent_trigger_change_event) {
                     props.onChange(editor.getValue(), event);
                 }

@@ -17,6 +17,7 @@ export default defineComponent({
       const {rootSchema,errorSchema,...rest} = props
       const TextWidget = TextWidgetRef.value
 
+      console.log('StringField errorSchema:',errorSchema);
       return <TextWidget {...rest} onChange={handleChange} errors={errorSchema.__errors}/>
     }
   }

@@ -20,7 +20,7 @@ const TextWidget: CommonWidgetDefine = withFormItem(defineComponent({
 
 
       /** 实现受控组件 法二*/
-      console.log(e);
+      // console.log(e);
       const value = e.target.value
       e.target.value = props.value
       props.onChange(value)
