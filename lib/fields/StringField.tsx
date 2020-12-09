@@ -14,7 +14,7 @@ export default defineComponent({
     };
 
     return ()=>  {
-      const {schema,rootSchema,errorSchema,...rest} = props
+      const {rootSchema,errorSchema,...rest} = props
       const TextWidget = TextWidgetRef.value
 
       return <TextWidget {...rest} onChange={handleChange} errors={errorSchema.__errors}/>
