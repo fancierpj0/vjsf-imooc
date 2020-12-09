@@ -2,6 +2,7 @@ import {CommonWidgetDefine, CommonWidgetPropsDefine} from "../types";
 import {defineComponent, nextTick} from "vue";
 
 const TextWidget: CommonWidgetDefine = defineComponent({
+  name: 'TextWidget',
   props: CommonWidgetPropsDefine,
   setup(props) {
     const handleChange = (e: any) => {

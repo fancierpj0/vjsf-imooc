@@ -4,7 +4,7 @@ import Ajv, { Options } from 'ajv';
 import {Schema, SchemaTypes, Theme} from "./types";
 import SchemaItem from "./SchemaItem";
 import {SchemaFormContextKey} from './context'
-import {validatorFormData} from './validator'
+import {ErrorSchema, validateFormData} from './validator'
 
 interface ContextRef {
   doValidate: () => {
@@ -57,6 +57,8 @@ export default defineComponent({
       // theme: props.theme
     }
 
+    const errorSchemaRef: Ref<ErrorSchema> = shallowRef({}) //验证结果每次校验都会重新生成,所以我们不需要考虑它里面的key去变化的情况,只需要考虑它整体变化的情况就可以了
+
     const validatorRef: Ref<Ajv.Ajv> = shallowRef() as any
 
     watchEffect(()=>{
@@ -73,7 +75,9 @@ export default defineComponent({
             console.log('---------------');
 
             // const valid = validatorRef.value.validate(props.schema, props.value) as boolean
-            const result = validatorFormData(validatorRef.value,props.value,props.schema,props.locale)
+            const result = validateFormData(validatorRef.value,props.value,props.schema,props.locale)
+
+            errorSchemaRef.value = result.errorSchema
 
             return result
           }
@@ -85,7 +89,15 @@ export default defineComponent({
 
     return () => {
       const {schema, value} = props
-      return <SchemaItem schema={schema} rootSchema={schema} value={value} onChange={handleChange}/>
+      return (
+        <SchemaItem
+          schema={schema}
+          rootSchema={schema}
+          value={value}
+          onChange={handleChange}
+          errorSchema={errorSchemaRef.value || {}}
+        />
+      )
     }
   }
 })

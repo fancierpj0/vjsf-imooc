@@ -14,10 +14,10 @@ export default defineComponent({
     };
 
     return ()=>  {
-      const {schema,rootSchema,...rest} = props
+      const {schema,rootSchema,errorSchema,...rest} = props
       const TextWidget = TextWidgetRef.value
 
-      return <TextWidget {...rest} onChange={handleChange}/>
+      return <TextWidget {...rest} onChange={handleChange} errors={errorSchema.__errors}/>
     }
   }
 })

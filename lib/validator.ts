@@ -18,7 +18,7 @@ interface ErrorSchemaObject {
 }
 
 export type ErrorSchema = ErrorSchemaObject & {
-  __errors: string[]
+  __errors?: string[]
 }
 
 function toErrorSchema(errors: TransformedErrorObject[]){
@@ -71,7 +71,7 @@ function transformErrors(errors: Ajv.ErrorObject[] | null | undefined) {
   });
 }
 
-export function validatorFormData(
+export function validateFormData(
   validator: Ajv.Ajv,
   formData: any,
   schema: Schema,
