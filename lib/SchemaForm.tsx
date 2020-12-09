@@ -1,8 +1,15 @@
-import {defineComponent, PropType, provide} from 'vue'
+import {defineComponent, PropType, provide, Ref, watch} from 'vue'
 
 import {Schema, SchemaTypes, Theme} from "./types";
 import SchemaItem from "./SchemaItem";
 import {SchemaFormContextKey} from './context'
+
+interface ContextRef {
+  doValidate: () => {
+    errors: any[],
+    valid: boolean
+  }
+}
 
 export default defineComponent({
   name: 'SchemaForm',
@@ -22,6 +29,9 @@ export default defineComponent({
       type: Object as PropType<Theme>,
       required: true
     }*/
+    ,contextRef: {
+      type: Object as PropType<Ref<ContextRef | undefined>>
+    }
   },
   setup(props, {slots, emit, attrs}) {
     const handleChange = (v: any) => {
@@ -32,6 +42,20 @@ export default defineComponent({
       SchemaItem,
       // theme: props.theme
     }
+
+    watch(()=>props.contextRef,()=>{
+      if (props.contextRef) {
+        props.contextRef.value = {
+          doValidate(){
+            console.log('---------------');
+            return {
+              valid: true,
+              errors: []
+            }
+          }
+        }
+      }
+    },{immediate:true})
 
     provide(SchemaFormContextKey, context) //provide的数据并不会自动变为响应式的 除非你讲其用reactive() 进行包裹
 

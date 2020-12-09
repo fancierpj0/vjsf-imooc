@@ -66,3 +66,6 @@ npm i cross-env -D
 ```shell script
 npm i rimraf -D
 ```
+
+##
+setup里声明的ref什么的,在外面(其它组件里)获取不到,vue也没有提供this.$xx什么的来获取
