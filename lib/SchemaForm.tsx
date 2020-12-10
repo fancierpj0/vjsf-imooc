@@ -1,7 +1,7 @@
 import {defineComponent, PropType, provide, Ref, watch, shallowRef, watchEffect, ref} from 'vue'
 import Ajv, { Options } from 'ajv';
 
-import {Schema, SchemaTypes, Theme} from "./types";
+import {Schema, SchemaTypes, Theme, UISchema} from "./types";
 import SchemaItem from "./SchemaItem";
 import {SchemaFormContextKey} from './context'
 import {ErrorSchema, validateFormData} from './validator'
@@ -48,6 +48,9 @@ export default defineComponent({
     }
     ,customValidate: {
       type: Function as PropType<(data: any, errors: any) => void>
+    }
+    ,uiSchema: {
+      type: Object as PropType<UISchema>
     }
   },
   setup(props, {slots, emit, attrs}) {
@@ -120,13 +123,14 @@ export default defineComponent({
     provide(SchemaFormContextKey, context) //provide的数据并不会自动变为响应式的 除非你讲其用reactive() 进行包裹
 
     return () => {
-      const {schema, value} = props
+      const {schema, value, uiSchema} = props
       return (
         <SchemaItem
           schema={schema}
           rootSchema={schema}
           value={value}
           onChange={handleChange}
+          uiSchema={uiSchema || {}}
           errorSchema={errorSchemaRef.value || {}}
         />
       )
