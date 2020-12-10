@@ -1,3 +1,5 @@
+![Codecov branch](https://img.shields.io/codecov/c/gh/fancierpj0/vjsf-imooc/master)
+
 >https://github.com/Jokcy/vjsf-imooc
 
 ##
