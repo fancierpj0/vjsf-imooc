@@ -16,12 +16,24 @@ export default defineComponent({
       props.onChange(v)
     };
 
+    const widgetOptionsRef = computed(()=>{
+      const {widget, properties, items, ...rest} = props.uiSchema
+      return rest
+    })
+
     return ()=>  {
       const {rootSchema,errorSchema,...rest} = props
       const TextWidget = TextWidgetRef.value
 
       console.log('StringField errorSchema:',errorSchema);
-      return <TextWidget {...rest} onChange={handleChange} errors={errorSchema.__errors}/>
+      return (
+        <TextWidget
+          {...rest}
+          onChange={handleChange}
+          errors={errorSchema.__errors}
+          options={widgetOptionsRef.value}
+        />
+      )
     }
   }
 })
