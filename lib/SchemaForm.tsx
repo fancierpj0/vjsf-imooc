@@ -1,10 +1,19 @@
 import {defineComponent, PropType, provide, Ref, watch, shallowRef, watchEffect, ref, computed} from 'vue'
 import Ajv, { Options } from 'ajv';
 
-import {CommonWidgetDefine, CustomFormat, Schema, SchemaTypes, Theme, UISchema} from "./types";
+import {
+  CommonWidgetDefine,
+  CustomFormat,
+  CustomKeyword,
+  Schema,
+  SchemaTypes,
+  Theme,
+  UISchema
+} from "./types";
 import SchemaItem from "./SchemaItem";
 import {SchemaFormContextKey} from './context'
 import {ErrorSchema, validateFormData} from './validator'
+import keyword from "@/plugins/customKeyword";
 
 interface ContextRef {
   doValidate: () => Promise<{
@@ -55,6 +64,9 @@ export default defineComponent({
     ,customFormats: {
       type: [Array, Object] as PropType<CustomFormat[] | CustomFormat>
     }
+    ,customKeywords: {
+      type: [Array, Object] as PropType<CustomKeyword[]|CustomKeyword>
+    }
   },
   setup(props, {slots, emit, attrs}) {
     const handleChange = (v: any) => {
@@ -76,11 +88,31 @@ export default defineComponent({
       }
     })
 
+    const transFormSchemaRef = computed(()=>{
+      if(props.customKeywords){
+        const customKeywords = Array.isArray(props.customKeywords)? props.customKeywords: [props.customKeywords]
+
+        return (schema: Schema)=>{
+          let newSchema = schema
+          customKeywords.forEach((keyword)=>{
+            if ((newSchema as any)[keyword.name]) {
+              newSchema = keyword.transformSchema(schema)
+            }
+          })
+          return newSchema
+        }
+      }else {
+        return (s: Schema)=>s
+      }
+    })
+
     const context: any = {
       SchemaItem,
       // theme: props.theme
 
-      formatMapRef
+      formatMapRef,
+
+      transFormSchemaRef
     }
 
     const errorSchemaRef: Ref<ErrorSchema> = shallowRef({}) //验证结果每次校验都会重新生成,所以我们不需要考虑它里面的key去变化的情况,只需要考虑它整体变化的情况就可以了
@@ -98,6 +130,11 @@ export default defineComponent({
         customFormats.forEach(format=>{
           validatorRef.value.addFormat(format.name,format.definition)
         })
+      }
+
+      if(props.customKeywords){
+        const customKeywords = Array.isArray(props.customKeywords)? props.customKeywords: [props.customKeywords]
+        customKeywords.forEach(keyword=>validatorRef.value.addKeyword(keyword.name,keyword.definition))
       }
     })
 

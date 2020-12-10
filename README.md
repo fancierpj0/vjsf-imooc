@@ -78,3 +78,7 @@ setup里声明的ref什么的,在外面(其它组件里)获取不到,vue也没�
 npm i lodash.topath -D
 npm i @types/lodash.topath -D
 ```
+
+## todo
+我们这种自定义keyword的方式 会导致多出一行错误提示
+![](dev-doc/todo/自定义keyword问题.png)

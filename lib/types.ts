@@ -1,5 +1,11 @@
 import {defineComponent, PropType, DefineComponent} from "vue"
-import {FormatDefinition} from 'ajv'
+import {
+  CompilationContext,
+  FormatDefinition,
+  KeywordDefinition,
+  SchemaValidateFunction,
+  ValidateFunction,
+} from 'ajv'
 
 import {SelectionWidget} from "./index";
 import {ErrorSchema} from "./validator";
@@ -152,4 +158,26 @@ export interface CustomFormat {
   name: string
   definition: FormatDefinition
   component: CommonWidgetDefine
+}
+
+interface VjsfKeywordDefinition {
+  type?: string | Array<string>;
+  async?: boolean;
+  $data?: boolean;
+  errors?: boolean | string;
+  metaSchema?: object;
+  // schema: false makes validate not to expect schema (ValidateFunction)
+  schema?: boolean;
+  statements?: boolean;
+  dependencies?: Array<string>;
+  modifying?: boolean;
+  valid?: boolean;
+  // one and only one of the following properties should be present
+  macro?: (schema: any, parentSchema: object, it: CompilationContext) => object | boolean;
+}
+
+export interface CustomKeyword {
+  name: string,
+  definition: VjsfKeywordDefinition
+  transformSchema: (originSchema: Schema) => Schema
 }
