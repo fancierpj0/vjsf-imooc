@@ -1,66 +1,83 @@
-import { shallowMount, mount} from '@vue/test-utils'
-import { defineComponent, h } from 'vue';
+import { mount, shallowMount } from '@vue/test-utils'
+import { defineComponent, h } from 'vue'
 
-import JsonSchemaForm,{NumberField,StringField} from '../../lib'
+import JsonSchemaForm, { NumberField, StringField } from '../../lib'
 
-describe('ObjectField',()=>{
-  let schema:any
+import TestComponent from './utils/TestComponent'
+
+describe('ObjectFiled', () => {
+  let schema: any
   beforeEach(() => {
     schema = {
       type: 'object',
-        properties: {
+      properties: {
         name: {
-          type: 'string'
+          type: 'string',
         },
         age: {
-          type: 'number'
-        }
-      }
+          type: 'number',
+        },
+      },
     }
-  });
+  })
 
-  it('should render properties to correct fields', async () => {
-    let value:any = {
-      name: '123'
-    };
-
-    const wrapper = mount(JsonSchemaForm,{
+  it('should render properties to correct fileds', async () => {
+    const wrapper = mount(TestComponent, {
       props: {
         schema,
-        value : value,
-        onChange: (v) => {value=v}
-      }
+        value: {},
+        onChange: () => {},
+      },
     })
 
-    const strField = wrapper.findComponent(StringField)
-    const numberField = wrapper.findComponent(NumberField)
-    expect(strField.exists()).toBeTruthy()
-    expect(numberField.exists()).toBeTruthy()
+    const strFiled = wrapper.findComponent(StringField)
+    const numField = wrapper.findComponent(NumberField)
 
-    await strField.props('onChange')(undefined)
-    expect(value.name).toBeUndefined();
-  });
+    expect(strFiled.exists()).toBeTruthy()
+    expect(numField.exists()).toBeTruthy()
+  })
 
   it('should change value when sub fields trigger onChange', async () => {
-    let value:any = {};
-
-    const wrapper = mount(JsonSchemaForm,{
+    let value: any = {}
+    const wrapper = mount(TestComponent, {
       props: {
         schema,
-        value,
+        value: value,
         onChange: (v) => {
           value = v
-        }
-      }
+        },
+      },
     })
 
-    const strField = wrapper.findComponent(StringField)
-    const numberField = wrapper.findComponent(NumberField)
+    const strFiled = wrapper.findComponent(StringField)
+    const numField = wrapper.findComponent(NumberField)
 
-    await strField.props('onChange')('1')
-    await numberField.props('onChange')(2)
-
+    await strFiled.props('onChange')('1')
     expect(value.name).toEqual('1')
-    expect(value.age).toEqual(2)
-  });
+    await numField.props('onChange')(1)
+    expect(value.age).toEqual(1)
+    // expect(numField.exists()).toBeTruthy()
+  })
+
+  it('should render properties to correct fileds', async () => {
+    let value: any = {
+      name: '123',
+    }
+    const wrapper = mount(TestComponent, {
+      props: {
+        schema,
+        value: value,
+        onChange: (v) => {
+          value = v
+        },
+      },
+    })
+
+    const strFiled = wrapper.findComponent(StringField)
+    // const numField = wrapper.findComponent(NumberFiled)
+    await strFiled.props('onChange')(undefined)
+
+    expect(value.name).toBeUndefined()
+    // expect(numField.exists()).toBeTruthy()
+  })
 })

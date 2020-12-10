@@ -86,3 +86,6 @@ npm i @types/lodash.topath -D
 
 ## Github Action
 >github.com/features/actions
+
+## codecov.io
+>codecov.io

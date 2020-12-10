@@ -1,34 +1,40 @@
-import {defineComponent, PropType} from 'vue';
+import { defineComponent, PropType } from 'vue'
+import JsonSchemaForm, { Schema, ThemeProvider } from '../../../lib'
+import defaultTheme from '../../../lib/theme-default'
 
-import JsonSchemaForm, {Schema,ThemeProvider} from '../../../lib';
-import defaultTheme from '../../../lib/theme-default';
+// vjsf-theme-default // import {ThemeProvider} from 'vue3-jsonschema-form'
+// vue3-jsonschema-form
 
 export const ThemeDefaultProvider = defineComponent({
-  setup(p, {slots}) {
-    return <ThemeProvider theme={defaultTheme}>
-      {slots.default && slots.default()}
-    </ThemeProvider>
-  }
-});
+  setup(p, { slots }) {
+    return () => (
+      <ThemeProvider theme={defaultTheme}>
+        {slots.default && slots.default()}
+      </ThemeProvider>
+    )
+  },
+})
 
 export default defineComponent({
   name: 'TestComponent',
   props: {
     schema: {
       type: Object as PropType<Schema>,
-      required: true
+      required: true,
     },
     value: {
-      required: true
+      required: true,
     },
     onChange: {
       type: Function as PropType<(v: any) => void>,
-      required: true
-    }
+      required: true,
+    },
   },
-  setup(props){
-    return () => <ThemeDefaultProvider>
-      <JsonSchemaForm {...props}/>
-    </ThemeDefaultProvider>
-  }
+  setup(props) {
+    return () => (
+      <ThemeDefaultProvider>
+        <JsonSchemaForm {...props} />
+      </ThemeDefaultProvider>
+    )
+  },
 })
