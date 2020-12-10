@@ -1,7 +1,7 @@
-import {defineComponent, PropType, provide, Ref, watch, shallowRef, watchEffect, ref} from 'vue'
+import {defineComponent, PropType, provide, Ref, watch, shallowRef, watchEffect, ref, computed} from 'vue'
 import Ajv, { Options } from 'ajv';
 
-import {Schema, SchemaTypes, Theme, UISchema} from "./types";
+import {CommonWidgetDefine, CustomFormat, Schema, SchemaTypes, Theme, UISchema} from "./types";
 import SchemaItem from "./SchemaItem";
 import {SchemaFormContextKey} from './context'
 import {ErrorSchema, validateFormData} from './validator'
@@ -52,15 +52,35 @@ export default defineComponent({
     ,uiSchema: {
       type: Object as PropType<UISchema>
     }
+    ,customFormats: {
+      type: [Array, Object] as PropType<CustomFormat[] | CustomFormat>
+    }
   },
   setup(props, {slots, emit, attrs}) {
     const handleChange = (v: any) => {
       props.onChange(v)
     }
 
+    const formatMapRef = computed(()=>{
+      if (props.customFormats) {
+        const customFormats = Array.isArray(props.customFormats)? props.customFormats: [props.customFormats]
+
+        return customFormats.reduce((result,format)=>{
+          //validatorRef.value.addFormat(format.name,format.definition)
+          result[format.name] = format.component
+          return result
+        },{} as {[key: string]: CommonWidgetDefine})
+
+      }else {
+        return {}
+      }
+    })
+
     const context: any = {
       SchemaItem,
       // theme: props.theme
+
+      formatMapRef
     }
 
     const errorSchemaRef: Ref<ErrorSchema> = shallowRef({}) //验证结果每次校验都会重新生成,所以我们不需要考虑它里面的key去变化的情况,只需要考虑它整体变化的情况就可以了
@@ -72,6 +92,13 @@ export default defineComponent({
         ...defaultAjvOptions,
         ...props.ajvOptions
       })
+
+      if (props.customFormats) {
+        const customFormats = Array.isArray(props.customFormats)? props.customFormats: [props.customFormats]
+        customFormats.forEach(format=>{
+          validatorRef.value.addFormat(format.name,format.definition)
+        })
+      }
     })
 
     const validateResolveRef = ref()
@@ -132,6 +159,7 @@ export default defineComponent({
           onChange={handleChange}
           uiSchema={uiSchema || {}}
           errorSchema={errorSchemaRef.value || {}}
+
         />
       )
     }

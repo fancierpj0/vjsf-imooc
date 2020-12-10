@@ -20,6 +20,11 @@ export default {
         type: 'string',
         minLength: 10,
         title: 're try password'
+      },
+      color: {
+        type: 'string',
+        format: 'color',
+        title: 'Input Color'
       }
     }
   },
