@@ -19,6 +19,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm run test:unit
+      - run: npm run test:unit:cov
         env:
           CI: true # 给当前操作系统的环境里添加一个环境变量 CI (process.env.CI=true)
+
+      # 增加一个任务
+      - name: Upload coverage to Codecov # 增加的任务叫撒
+        uses: codecov/codecov-action@v1 # codecov官方提供的
+        with:
+          flags: unittests #一个标识 标识是哪个任务的相关的覆盖率数据
+          file: ./coverage/clover.xml #从哪里去读取覆盖率数据
+          fail_ci_if_error: true #如果报错 就把整个ci停掉（3个操作系统 3个环境, 只要有一种组合错了 就都停掉）

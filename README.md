@@ -89,3 +89,9 @@ npm i @types/lodash.topath -D
 
 ## codecov.io
 >codecov.io
+
+推送后会自动上传到codecov
+
+我们可以通过一下链接访问到
+
+>https://codecov.io/gh/你的github名字/你的仓库名/branch/哪个分支
