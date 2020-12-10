@@ -1,0 +1,24 @@
+name: test-coverage
+
+on: [push] # 什么时候触发(执行)这个任务
+
+# jobs要执行的任务 要做什么
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
+        os: [ubuntu-latest, macos-latest, windows-latest] # 会在ubuntu-latest、macos-latest、 windows-latest 三个系统上使用node-version: [8.x, 10.x, 12.x] 这三个版本的node 去跑下面的命令
+
+    steps:
+      - uses: actions/checkout@v2 #https://github.com/actions/checkout;  把代码check到上面指定的操作系统去执行(?)
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run test:unit
+        env:
+          CI: true # 给当前操作系统的环境里添加一个环境变量 CI (process.env.CI=true)
